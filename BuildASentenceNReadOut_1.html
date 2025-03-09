@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clickable Table</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top:100px; //moves your table 100pixels down
+//            margin-left:10px; //moves your table 10pixels right
+           <tbody style="font-size: 28px";>
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 5px;
+            text-align: center;
+            cursor: pointer;
+            rowspan=3;
+            colspan=10;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        td:hover {
+            background-color: #e0e0e0;
+        }
+        #output {
+            position: absolute;
+            top: 10px;
+            left: 450px;
+            font-size: 50px;
+            font-weight: bold;
+            color: blue;
+        }
+    </style>
+    <script>
+        // Declare a variable to hold the word
+        var mergeText = "";
+
+        function cellClicked(value) {
+//            alert("你撰了: " + value.innerText);
+            document.getElementById("output").innerText = value.innerText;
+            mergeText = mergeText + value.innerText
+        }
+        function DisplayMerged(value) {
+            document.getElementById("output").innerText = value;
+        }
+        function ClearText(value) {
+            mergeText = "";
+        }
+        // Function to convert text to speech
+        function speakText() {
+
+            // Check if there is any text to speak
+            if (mergeText !== '') {
+                // Create a new SpeechSynthesisUtterance object with the entered text
+                let speech = new SpeechSynthesisUtterance(mergeText);
+
+                // Set properties for the speech (optional)
+                speech.volume = 1;  // Volume (0 to 1)
+                speech.rate = 1;    // Speed of speech (0.1 to 10)
+                speech.pitch = 1;   // Pitch (0 to 2)
+		speech.lang = "zh-HK" //Cantonese
+
+                // Use the SpeechSynthesis API to speak the text
+                window.speechSynthesis.speak(speech);
+            } else {
+                alert("Please enter some text to speak.");
+            }
+        }
+
+    </script>
+</head>
+<body>
+
+    <div id="output"></div>
+
+    <table>
+        <tbody style="font-size: 60px";>
+<!--  Temporary comment out column header      
+        <tr>
+            <th>Column 1</th>
+            <th>Column 2</th>
+            <th>Column 3</th>
+        </tr>
+-->
+        <tr>
+            <td onclick="cellClicked(this)">我</td>
+            <td onclick="cellClicked(this)">頭</td>
+            <td onclick="cellClicked(this)">頸</td>
+            <td onclick="cellClicked(this)">手</td>
+        </tr>
+        <tr>
+            <td onclick="cellClicked(this)">腳</td>
+            <td onclick="cellClicked(this)">暈</td>
+            <td onclick="cellClicked(this)">痛</td>
+            <td onclick="cellClicked(this)">痕癢</td>
+        </tr>
+        <tr>
+            <td onclick="cellClicked(this)">想上床睡覺</td>
+            <td onclick="speakText(mergeText)">讀出嚟</td>
+            <td onclick="ClearText()"​>重新開始</td>
+            <td onclick="DisplayMerged(mergeText)">看看全句</td>
+        </tr>
+    </table>
+</body>
+</html>
